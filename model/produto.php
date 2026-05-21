@@ -6,7 +6,7 @@ private $conn;
         $this->conn = $conn;
     }
 
-    public function cadastrar($nome, $descricao, $quantidade, $idFornecedor, $imagem) {
+    public function cadastrar($nome, $descricao, $quantidade, $idFornecedor, $preco, $imagem) {
 
     // gera nome único
     $nomeImagem = uniqid() . "_" . $imagem['name'];
@@ -21,8 +21,8 @@ private $conn;
 
     // cadastra produto
     $sqlProduto = "INSERT INTO produto
-                    (nome, descricao, id_fornecedor, imagem)
-                    VALUES ($1, $2, $3, $4)
+                    (nome, descricao, id_fornecedor, preco, imagem)
+                    VALUES ($1, $2, $3, $4, $5)
                     RETURNING id";
 
     $resultProduto = pg_query_params(
@@ -32,6 +32,7 @@ private $conn;
             $nome,
             $descricao,
             $idFornecedor,
+            $preco,
             $nomeImagem
         ]
     );
@@ -287,6 +288,7 @@ public function listarTodosProdutos() {
                 produto.nome,
                 produto.descricao,
                 produto.imagem,
+                produto.preco,
                 estoque.quantidade
             FROM produto
             JOIN estoque

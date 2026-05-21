@@ -59,3 +59,6 @@ CREATE TABLE carrinho (
     FOREIGN KEY (id_produto)
     REFERENCES produto(id)
 );
+
+ALTER TABLE produto
+ADD COLUMN preco NUMERIC(10,2) NOT NULL DEFAULT 0;

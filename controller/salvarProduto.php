@@ -7,6 +7,7 @@ include("../model/Produto.php");
 $nome = $_POST['nome'];
 $descricao = $_POST['descricao'];
 $quantidade = $_POST['quantidade'];
+$preco = $_POST['preco'];
 $imagem = $_FILES['imagem'];
 
 $idFornecedor = $_SESSION['id'];
@@ -18,6 +19,7 @@ $result = $produto->cadastrar(
     $descricao,
     $quantidade,
     $idFornecedor,
+    $preco,
     $imagem
 );
 

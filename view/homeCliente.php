@@ -15,6 +15,7 @@ $result = $produtoModel->listarTodosProdutos();
 
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.8/dist/css/bootstrap.min.css" rel="stylesheet">
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.8/dist/js/bootstrap.bundle.min.js"></script>
@@ -23,70 +24,70 @@ $result = $produtoModel->listarTodosProdutos();
     <title>Pagina Inicial</title>
     <link rel="stylesheet" href="../styles/styleHomeCliente.css">
 </head>
+
 <body>
     <div class="container mt-4">
-    <div class="row">
+        <div class="row">
 
-    <?php while ($produto = pg_fetch_assoc($result)) { ?>
+            <?php while ($produto = pg_fetch_assoc($result)) { ?>
 
-        <div class="col-md-3 mb-4">
+                <div class="col-md-3 mb-4">
 
-            <div class="card h-100 shadow">
+                    <div class="card h-100 shadow">
 
-                <img
-                    src="../uploads/<?php echo $produto['imagem']; ?>"
-                    class="card-img-top"
-                    style="height: 200px; object-fit: cover;"
-                >
+                        <img src="../uploads/<?php echo $produto['imagem']; ?>" class="card-img-top"
+                            style="height: 200px; object-fit: cover;">
 
-                <div class="card-body">
+                        <div class="card-body">
 
-                    <h5 class="card-title">
-                        <?php echo $produto['nome']; ?>
-                    </h5>
+                            <h5 class="card-title">
+                                <?php echo $produto['nome']; ?>
+                            </h5>
 
-                    <p class="card-text">
-                        <?php echo $produto['descricao']; ?>
-                    </p>
+                            <p class="card-text">
+                                <?php echo $produto['descricao']; ?>
+                            </p>
 
-                    <p>
-                        Estoque:
-                        <?php echo $produto['quantidade']; ?>
-                    </p>
+                            <p>
+                                Estoque:
+                                <?php echo $produto['quantidade']; ?>
+                            </p>
 
-                    <?php if ($produto['quantidade'] > 0) { ?>
+                            <p class="fw-bold text-success">
+                                R$
+                                <?php echo number_format($produto['preco'], 2, ',', '.'); ?>
+                            </p>
 
-                    <form action="../controller/adicionarCarrinho.php" method="POST">
+                            <?php if ($produto['quantidade'] > 0) { ?>
 
-                        <input
-                            type="hidden"
-                            name="id_produto"
-                            value="<?php echo $produto['id']; ?>"
-                        >
+                                <form action="../controller/adicionarCarrinho.php" method="POST">
 
-                        <button type="submit" class="btn btn-dark w-100">
-                            🛒 Adicionar ao Carrinho
-                        </button>
+                                    <input type="hidden" name="id_produto" value="<?php echo $produto['id']; ?>">
 
-                    </form>
+                                    <button type="submit" class="btn btn-dark w-100">
+                                        🛒 Adicionar ao Carrinho
+                                    </button>
 
-                        <?php } else { ?>
+                                </form>
 
-                            <button class="btn btn-secondary w-100" disabled>
-                                Produto Indisponível
-                            </button>
+                            <?php } else { ?>
 
-                        <?php } ?>
+                                <button class="btn btn-secondary w-100" disabled>
+                                    Produto Indisponível
+                                </button>
+
+                            <?php } ?>
+
+                        </div>
+
+                    </div>
 
                 </div>
 
-            </div>
+            <?php } ?>
 
         </div>
-
-    <?php } ?>
-
     </div>
-</div>
 </body>
+
 </html>
