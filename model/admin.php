@@ -137,5 +137,38 @@ public function excluirFornecedor($id) {
 
     return true;
 }
+
+public function listarClientesPaginado($limite, $offset) {
+    $sql = "SELECT id, nome, email, telefone
+            FROM cliente
+            ORDER BY id
+            LIMIT $1 OFFSET $2";
+
+    return pg_query_params($this->conn, $sql, [$limite, $offset]);
+}
+
+public function contarClientes() {
+    $sql = "SELECT COUNT(*) AS total FROM cliente";
+    $result = pg_query($this->conn, $sql);
+    $dados = pg_fetch_assoc($result);
+    return $dados['total'];
+}
+
+public function listarFornecedoresPaginado($limite, $offset) {
+    $sql = "SELECT id, nome, email, telefone
+            FROM fornecedor
+            ORDER BY id
+            LIMIT $1 OFFSET $2";
+
+    return pg_query_params($this->conn, $sql, [$limite, $offset]);
+}
+
+public function contarFornecedores() {
+    $sql = "SELECT COUNT(*) AS total FROM fornecedor";
+    $result = pg_query($this->conn, $sql);
+    $dados = pg_fetch_assoc($result);
+    return $dados['total'];
+}
+
 }
 ?>
