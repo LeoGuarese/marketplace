@@ -17,6 +17,9 @@ if (session_status() === PHP_SESSION_NONE) {
             <li class="nav-item">
                 <a class="nav-link" href="../view/carrinho.php">Carrinho</a>
             </li>
+            <li class="nav-item">
+                <a class="nav-link" href="../view/consultaPedidos.php">Meus Pedidos</a>
+            </li>
         </ul>
 
         <li class="nav-item dropdown">

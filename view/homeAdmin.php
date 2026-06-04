@@ -17,8 +17,8 @@ $limite = 5;
 $paginaClientes = $_GET['paginaClientes'] ?? 1;
 $paginaFornecedores = $_GET['paginaFornecedores'] ?? 1;
 
-$paginaClientes = max(1, (int)$paginaClientes);
-$paginaFornecedores = max(1, (int)$paginaFornecedores);
+$paginaClientes = max(1, (int) $paginaClientes);
+$paginaFornecedores = max(1, (int) $paginaFornecedores);
 
 $offsetClientes = ($paginaClientes - 1) * $limite;
 $offsetFornecedores = ($paginaFornecedores - 1) * $limite;
@@ -33,10 +33,17 @@ $clientes = $admin->listarClientesPaginado($limite, $offsetClientes);
 $fornecedores = $admin->listarFornecedoresPaginado($limite, $offsetFornecedores);
 
 ?>
+
 <head>
-        <link rel="stylesheet" href="../styles/styleHomeCliente.css">
-        <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.8/dist/css/bootstrap.min.css" rel="stylesheet">
+    <link rel="stylesheet" href="../styles/styleHomeCliente.css">
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.8/dist/css/bootstrap.min.css" rel="stylesheet">
 </head>
+
+<div class="text-center mb-4">
+    <a href="consultaPedidos.php" class="btn btn-primary">
+        Consultar Pedidos
+    </a>
+</div>
 
 <div class="container mt-5">
 
@@ -63,8 +70,7 @@ $fornecedores = $admin->listarFornecedoresPaginado($limite, $offsetFornecedores)
                         <td><?php echo $cliente['telefone']; ?></td>
                         <td>
                             <a href="../controller/excluirUsuario.php?id=<?php echo $cliente['id']; ?>&tipo=cliente"
-                               class="btn btn-danger btn-sm"
-                               onclick="return confirm('Excluir cliente?');">
+                                class="btn btn-danger btn-sm" onclick="return confirm('Excluir cliente?');">
                                 🗑️
                             </a>
                         </td>
@@ -78,7 +84,7 @@ $fornecedores = $admin->listarFornecedoresPaginado($limite, $offsetFornecedores)
                 <?php for ($i = 1; $i <= $totalPaginasClientes; $i++) { ?>
                     <li class="page-item <?php echo ($i == $paginaClientes) ? 'active' : ''; ?>">
                         <a class="page-link"
-                           href="?paginaClientes=<?php echo $i; ?>&paginaFornecedores=<?php echo $paginaFornecedores; ?>">
+                            href="?paginaClientes=<?php echo $i; ?>&paginaFornecedores=<?php echo $paginaFornecedores; ?>">
                             <?php echo $i; ?>
                         </a>
                     </li>
@@ -111,8 +117,7 @@ $fornecedores = $admin->listarFornecedoresPaginado($limite, $offsetFornecedores)
                         <td><?php echo $fornecedor['telefone']; ?></td>
                         <td>
                             <a href="../controller/excluirUsuario.php?id=<?php echo $fornecedor['id']; ?>&tipo=fornecedor"
-                               class="btn btn-danger btn-sm"
-                               onclick="return confirm('Excluir fornecedor?');">
+                                class="btn btn-danger btn-sm" onclick="return confirm('Excluir fornecedor?');">
                                 🗑️
                             </a>
                         </td>
@@ -126,7 +131,7 @@ $fornecedores = $admin->listarFornecedoresPaginado($limite, $offsetFornecedores)
                 <?php for ($i = 1; $i <= $totalPaginasFornecedores; $i++) { ?>
                     <li class="page-item <?php echo ($i == $paginaFornecedores) ? 'active' : ''; ?>">
                         <a class="page-link"
-                           href="?paginaClientes=<?php echo $paginaClientes; ?>&paginaFornecedores=<?php echo $i; ?>">
+                            href="?paginaClientes=<?php echo $paginaClientes; ?>&paginaFornecedores=<?php echo $i; ?>">
                             <?php echo $i; ?>
                         </a>
                     </li>
@@ -142,7 +147,7 @@ $fornecedores = $admin->listarFornecedoresPaginado($limite, $offsetFornecedores)
         <?php for ($i = 1; $i <= $totalPaginasFornecedores; $i++) { ?>
             <li class="page-item <?php echo ($i == $paginaFornecedores) ? 'active' : ''; ?>">
                 <a class="page-link"
-                   href="?paginaClientes=<?php echo $paginaClientes; ?>&paginaFornecedores=<?php echo $i; ?>">
+                    href="?paginaClientes=<?php echo $paginaClientes; ?>&paginaFornecedores=<?php echo $i; ?>">
                     <?php echo $i; ?>
                 </a>
             </li>

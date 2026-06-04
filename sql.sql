@@ -62,3 +62,28 @@ CREATE TABLE carrinho (
 
 ALTER TABLE produto
 ADD COLUMN preco NUMERIC(10,2) NOT NULL DEFAULT 0;
+
+CREATE TABLE pedido (
+    id SERIAL PRIMARY KEY,
+    id_cliente INT NOT NULL,
+    valor_total NUMERIC(10,2) NOT NULL,
+    data_pedido TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
+
+    FOREIGN KEY (id_cliente) REFERENCES cliente(id)
+);
+
+CREATE TABLE item_pedido (
+    id SERIAL PRIMARY KEY,
+    id_pedido INT NOT NULL,
+    id_produto INT NOT NULL,
+    quantidade INT NOT NULL,
+    preco_unitario NUMERIC(10,2) NOT NULL,
+
+    FOREIGN KEY (id_pedido) REFERENCES pedido(id),
+    FOREIGN KEY (id_produto) REFERENCES produto(id)
+);  
+
+ALTER TABLE pedido
+ADD COLUMN status VARCHAR(20) DEFAULT 'pendente',
+ADD COLUMN data_envio TIMESTAMP,
+ADD COLUMN data_cancelamento TIMESTAMP;
