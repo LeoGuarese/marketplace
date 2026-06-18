@@ -34,123 +34,159 @@ $fornecedores = $admin->listarFornecedoresPaginado($limite, $offsetFornecedores)
 
 ?>
 
+<!DOCTYPE html>
+<html lang="pt-BR">
 <head>
-    <link rel="stylesheet" href="../styles/styleHomeCliente.css">
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Painel do Administrador</title>
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.8/dist/css/bootstrap.min.css" rel="stylesheet">
+    <link rel="stylesheet" href="../styles/homeAdmin.css">
 </head>
+<body>
 
-<div class="text-center mb-4">
-    <a href="consultaPedidos.php" class="btn btn-primary">
-        Consultar Pedidos
-    </a>
-</div>
-
-<div class="container mt-5">
-
-    <div class="card shadow p-4 mb-5">
-        <h2 class="text-center mb-4">Clientes</h2>
-
-        <table class="table table-striped table-hover text-center align-middle">
-            <thead class="table-dark">
-                <tr>
-                    <th>ID</th>
-                    <th>Nome</th>
-                    <th>Email</th>
-                    <th>Telefone</th>
-                    <th>Ações</th>
-                </tr>
-            </thead>
-
-            <tbody>
-                <?php while ($cliente = pg_fetch_assoc($clientes)) { ?>
-                    <tr>
-                        <td><?php echo $cliente['id']; ?></td>
-                        <td><?php echo $cliente['nome']; ?></td>
-                        <td><?php echo $cliente['email']; ?></td>
-                        <td><?php echo $cliente['telefone']; ?></td>
-                        <td>
-                            <a href="../controller/excluirUsuario.php?id=<?php echo $cliente['id']; ?>&tipo=cliente"
-                                class="btn btn-danger btn-sm" onclick="return confirm('Excluir cliente?');">
-                                🗑️
-                            </a>
-                        </td>
-                    </tr>
-                <?php } ?>
-            </tbody>
-        </table>
-
-        <nav class="d-flex justify-content-center">
-            <ul class="pagination">
-                <?php for ($i = 1; $i <= $totalPaginasClientes; $i++) { ?>
-                    <li class="page-item <?php echo ($i == $paginaClientes) ? 'active' : ''; ?>">
-                        <a class="page-link"
-                            href="?paginaClientes=<?php echo $i; ?>&paginaFornecedores=<?php echo $paginaFornecedores; ?>">
-                            <?php echo $i; ?>
-                        </a>
-                    </li>
-                <?php } ?>
-            </ul>
-        </nav>
+    <!-- Header -->
+    <div class="header-section">
+        <div class="container">
+            <div class="header-content">
+                <div>
+                    <h1>Painel do Administrador</h1>
+                    <p>Gerenciar clientes, fornecedores e pedidos</p>
+                </div>
+                <div>
+                    <a href="homeAdmin.php" class="btn-back">Voltar</a>
+                </div>
+            </div>
+        </div>
     </div>
 
+    <div class="container">
 
-    <div class="card shadow p-4">
-        <h2 class="text-center mb-4">Fornecedores</h2>
+        <!-- Botões de Ação -->
+        <div class="btn-group-actions">
+            <a href="consultaPedidos.php" class="btn btn-primary">
+                Consultar Pedidos
+            </a>
+        </div>
 
-        <table class="table table-striped table-hover text-center align-middle">
-            <thead class="table-dark">
-                <tr>
-                    <th>ID</th>
-                    <th>Nome</th>
-                    <th>Email</th>
-                    <th>Telefone</th>
-                    <th>Ações</th>
-                </tr>
-            </thead>
+        <!-- Grid com 2 colunas -->
+        <div class="grid-container">
 
-            <tbody>
-                <?php while ($fornecedor = pg_fetch_assoc($fornecedores)) { ?>
-                    <tr>
-                        <td><?php echo $fornecedor['id']; ?></td>
-                        <td><?php echo $fornecedor['nome']; ?></td>
-                        <td><?php echo $fornecedor['email']; ?></td>
-                        <td><?php echo $fornecedor['telefone']; ?></td>
-                        <td>
-                            <a href="../controller/excluirUsuario.php?id=<?php echo $fornecedor['id']; ?>&tipo=fornecedor"
-                                class="btn btn-danger btn-sm" onclick="return confirm('Excluir fornecedor?');">
-                                🗑️
-                            </a>
-                        </td>
-                    </tr>
-                <?php } ?>
-            </tbody>
-        </table>
+            <!-- Card Clientes -->
+            <div class="card">
+                <div class="card-header-custom">
+                    Gerenciar Clientes
+                </div>
+                <div class="card-body">
+                    <div class="table-responsive">
+                        <table class="table table-striped table-hover align-middle">
+                            <thead>
+                                <tr>
+                                    <th>ID</th>
+                                    <th>Nome</th>
+                                    <th>Email</th>
+                                    <th>Telefone</th>
+                                    <th>Ações</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <?php while ($cliente = pg_fetch_assoc($clientes)) { ?>
+                                    <tr>
+                                        <td><strong>#<?php echo $cliente['id']; ?></strong></td>
+                                        <td><?php echo $cliente['nome']; ?></td>
+                                        <td><?php echo $cliente['email']; ?></td>
+                                        <td><?php echo $cliente['telefone']; ?></td>
+                                        <td>
+                                            <a href="../controller/excluirUsuario.php?id=<?php echo $cliente['id']; ?>&tipo=cliente"
+                                                class="btn-delete" 
+                                                onclick="return confirm('Tem certeza que deseja excluir este cliente?');">
+                                                Excluir
+                                            </a>
+                                        </td>
+                                    </tr>
+                                <?php } ?>
+                            </tbody>
+                        </table>
+                    </div>
 
-        <nav class="d-flex justify-content-center">
-            <ul class="pagination">
-                <?php for ($i = 1; $i <= $totalPaginasFornecedores; $i++) { ?>
-                    <li class="page-item <?php echo ($i == $paginaFornecedores) ? 'active' : ''; ?>">
-                        <a class="page-link"
-                            href="?paginaClientes=<?php echo $paginaClientes; ?>&paginaFornecedores=<?php echo $i; ?>">
-                            <?php echo $i; ?>
-                        </a>
-                    </li>
-                <?php } ?>
-            </ul>
-        </nav>
+                    <!-- Paginação Clientes -->
+                    <?php if ($totalPaginasClientes > 1) { ?>
+                        <nav>
+                            <ul class="pagination">
+                                <?php for ($i = 1; $i <= $totalPaginasClientes; $i++) { ?>
+                                    <li class="page-item <?php echo ($i == $paginaClientes) ? 'active' : ''; ?>">
+                                        <a class="page-link"
+                                            href="?paginaClientes=<?php echo $i; ?>&paginaFornecedores=<?php echo $paginaFornecedores; ?>">
+                                            <?php echo $i; ?>
+                                        </a>
+                                    </li>
+                                <?php } ?>
+                            </ul>
+                        </nav>
+                    <?php } ?>
+                </div>
+            </div>
+
+            <!-- Card Fornecedores -->
+            <div class="card">
+                <div class="card-header-custom">
+                    Gerenciar Fornecedores
+                </div>
+                <div class="card-body">
+                    <div class="table-responsive">
+                        <table class="table table-striped table-hover align-middle">
+                            <thead>
+                                <tr>
+                                    <th>ID</th>
+                                    <th>Nome</th>
+                                    <th>Email</th>
+                                    <th>Telefone</th>
+                                    <th>Ações</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <?php while ($fornecedor = pg_fetch_assoc($fornecedores)) { ?>
+                                    <tr>
+                                        <td><strong>#<?php echo $fornecedor['id']; ?></strong></td>
+                                        <td><?php echo $fornecedor['nome']; ?></td>
+                                        <td><?php echo $fornecedor['email']; ?></td>
+                                        <td><?php echo $fornecedor['telefone']; ?></td>
+                                        <td>
+                                            <a href="../controller/excluirUsuario.php?id=<?php echo $fornecedor['id']; ?>&tipo=fornecedor"
+                                                class="btn-delete"
+                                                onclick="return confirm('Tem certeza que deseja excluir este fornecedor?');">
+                                                Excluir
+                                            </a>
+                                        </td>
+                                    </tr>
+                                <?php } ?>
+                            </tbody>
+                        </table>
+                    </div>
+
+                    <!-- Paginação Fornecedores -->
+                    <?php if ($totalPaginasFornecedores > 1) { ?>
+                        <nav>
+                            <ul class="pagination">
+                                <?php for ($i = 1; $i <= $totalPaginasFornecedores; $i++) { ?>
+                                    <li class="page-item <?php echo ($i == $paginaFornecedores) ? 'active' : ''; ?>">
+                                        <a class="page-link"
+                                            href="?paginaClientes=<?php echo $paginaClientes; ?>&paginaFornecedores=<?php echo $i; ?>">
+                                            <?php echo $i; ?>
+                                        </a>
+                                    </li>
+                                <?php } ?>
+                            </ul>
+                        </nav>
+                    <?php } ?>
+                </div>
+            </div>
+
+        </div>
+
     </div>
 
-</div>
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.8/dist/js/bootstrap.bundle.min.js"></script>
 
-<nav>
-    <ul class="pagination">
-        <?php for ($i = 1; $i <= $totalPaginasFornecedores; $i++) { ?>
-            <li class="page-item <?php echo ($i == $paginaFornecedores) ? 'active' : ''; ?>">
-                <a class="page-link"
-                    href="?paginaClientes=<?php echo $paginaClientes; ?>&paginaFornecedores=<?php echo $i; ?>">
-                    <?php echo $i; ?>
-                </a>
-            </li>
-        <?php } ?>
-    </ul>
-</nav>
+</body>
+</html>
