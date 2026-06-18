@@ -54,7 +54,7 @@ $fornecedores = $admin->listarFornecedoresPaginado($limite, $offsetFornecedores)
                     <p>Gerenciar clientes, fornecedores e pedidos</p>
                 </div>
                 <div>
-                    <a href="homeAdmin.php" class="btn-back">Voltar</a>
+                    <a href="cadastrar.html" class="btn-back">Voltar</a>
                 </div>
             </div>
         </div>

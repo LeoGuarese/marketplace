@@ -11,7 +11,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'OPTIONS') {
 }
 
 // Conexão com o banco de dados
-$conn = pg_connect("host=localhost dbname=projetoWeb user=postgres password=123");
+include("../conexao.php");
 
 if (!$conn) {
     http_response_code(500);

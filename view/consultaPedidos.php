@@ -328,7 +328,7 @@ $idUsuario = $_SESSION['id'];
                     <p>Visualize e gerencie seus pedidos</p>
                 </div>
                 <div>
-                    <button class="btn-back" onclick="history.back();">Voltar</button>
+                    <button class="btn-back" onclick="window.location.href='homeAdmin.php'">Voltar</button>
                 </div>
             </div>
         </div>

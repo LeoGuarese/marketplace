@@ -7,8 +7,6 @@ if (!isset($_SESSION['id'])) {
 }
 ?>
 
-<?php include("../styles/navbar.php"); ?>
-
 <!DOCTYPE html>
 <html lang="pt-BR">
 <head>
@@ -16,16 +14,15 @@ if (!isset($_SESSION['id'])) {
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Home - Fornecedor</title>
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.8/dist/css/bootstrap.min.css" rel="stylesheet">
-    <link rel="stylesheet" href="../styles/homeFornecedor.css">
+    <link rel="stylesheet" href="../styles/styleHomeFornecedor.css">
 </head>
 <body>
 
+<?php include("../styles/navbar.php"); ?>
+
     <div class="container" style="padding-top: 30px;">
         <div class="grid-container">
-            <!-- Pedidos Recentes -->
             <div>
-                <div class="section-title">Pedidos dos Seus Produtos</div>
-                
                 <div id="carregandoPedidos" class="loading-container" style="display: none;">
                     <div class="loading-spinner"></div>
                     <p class="mt-3">Carregando pedidos...</p>
