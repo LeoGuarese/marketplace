@@ -18,10 +18,12 @@ CREATE TABLE produto (
     id SERIAL PRIMARY KEY,
     nome VARCHAR(100) NOT NULL,
     descricao VARCHAR(255),
+    preco NUMERIC(10,2) NOT NULL DEFAULT 0,
+    imagem VARCHAR(255),
     id_fornecedor INT NOT NULL,
 
     FOREIGN KEY (id_fornecedor)
-    REFERENCES fornecedor(id)
+        REFERENCES fornecedor(id)
 );
 
 CREATE TABLE estoque (
@@ -30,7 +32,7 @@ CREATE TABLE estoque (
     id_produto INT UNIQUE NOT NULL,
 
     FOREIGN KEY (id_produto)
-    REFERENCES produto(id)
+        REFERENCES produto(id)
 );
 
 CREATE TABLE admin (
@@ -40,36 +42,30 @@ CREATE TABLE admin (
     senha VARCHAR(255) NOT NULL
 );
 
-ALTER TABLE produto
-ADD COLUMN imagem VARCHAR(255);
-
 CREATE TABLE carrinho (
-
     id SERIAL PRIMARY KEY,
-
     id_cliente INT NOT NULL,
-
     id_produto INT NOT NULL,
-
-    quantidade INT DEFAULT 1,
+    quantidade INT NOT NULL DEFAULT 1,
 
     FOREIGN KEY (id_cliente)
-    REFERENCES cliente(id),
+        REFERENCES cliente(id),
 
     FOREIGN KEY (id_produto)
-    REFERENCES produto(id)
+        REFERENCES produto(id)
 );
-
-ALTER TABLE produto
-ADD COLUMN preco NUMERIC(10,2) NOT NULL DEFAULT 0;
 
 CREATE TABLE pedido (
     id SERIAL PRIMARY KEY,
     id_cliente INT NOT NULL,
     valor_total NUMERIC(10,2) NOT NULL,
     data_pedido TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
+    status VARCHAR(20) DEFAULT 'pendente',
+    data_envio TIMESTAMP,
+    data_cancelamento TIMESTAMP,
 
-    FOREIGN KEY (id_cliente) REFERENCES cliente(id)
+    FOREIGN KEY (id_cliente)
+        REFERENCES cliente(id)
 );
 
 CREATE TABLE item_pedido (
@@ -79,11 +75,9 @@ CREATE TABLE item_pedido (
     quantidade INT NOT NULL,
     preco_unitario NUMERIC(10,2) NOT NULL,
 
-    FOREIGN KEY (id_pedido) REFERENCES pedido(id),
-    FOREIGN KEY (id_produto) REFERENCES produto(id)
-);  
+    FOREIGN KEY (id_pedido)
+        REFERENCES pedido(id),
 
-ALTER TABLE pedido
-ADD COLUMN status VARCHAR(20) DEFAULT 'pendente',
-ADD COLUMN data_envio TIMESTAMP,
-ADD COLUMN data_cancelamento TIMESTAMP;
+    FOREIGN KEY (id_produto)
+        REFERENCES produto(id)
+);

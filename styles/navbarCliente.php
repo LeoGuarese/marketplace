@@ -6,11 +6,15 @@ if (session_status() === PHP_SESSION_NONE) {
 
 ?>
 
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.min.css">
+
 <nav class="navbar navbar-expand-sm navbar-custom fixed-top">
 
     <div class="container-fluid">
         <ul class="navbar-nav">
-            <a class="navbar-brand">Logo</a>
+            <a class="navbar-brand" href="#">
+                <i class="bi bi-cart-fill fs-3"></i>
+            </a>
             <li class="nav-item">
                 <a class="nav-link" href="../view/homeCliente.php">Home</a>
             </li>
