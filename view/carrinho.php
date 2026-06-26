@@ -15,14 +15,20 @@ $idCliente = $_SESSION['id'];
 $sql = "
     SELECT
         carrinho.id,
+        carrinho.id_produto,
         produto.nome,
         produto.descricao,
         produto.imagem,
-        carrinho.quantidade
+        produto.preco,
+        carrinho.quantidade,
+        estoque.quantidade AS estoque_disponivel
     FROM carrinho
 
     JOIN produto
     ON carrinho.id_produto = produto.id
+
+    JOIN estoque
+    ON produto.id = estoque.id_produto
 
     WHERE carrinho.id_cliente = $1
 ";
@@ -99,10 +105,33 @@ $result = pg_query_params(
                                     <?php echo $item['descricao']; ?>
                                 </p>
 
-                                <p>
-                                    Quantidade:
-                                    <?php echo $item['quantidade']; ?>
-                                </p>
+                                <div class="d-flex align-items-center gap-2 mb-3">
+                                    <span>Quantidade:</span>
+
+                                    <a href="../controller/removerCarrinho.php?id=<?php echo $item['id']; ?>"
+                                        class="btn btn-outline-danger btn-sm">
+                                        -
+                                    </a>
+
+                                    <strong><?php echo $item['quantidade']; ?></strong>
+
+                                    <?php if ($item['estoque_disponivel'] > 0) { ?>
+                                        <a href="../controller/addCarrinho.php?id=<?php echo $item['id']; ?>"
+                                            class="btn btn-outline-success btn-sm">
+                                            +
+                                        </a>
+                                    <?php } else { ?>
+                                        <button class="btn btn-outline-secondary btn-sm" disabled>
+                                            +
+                                        </button>
+                                    <?php } ?>
+                                </div>
+
+                                <?php if ($item['estoque_disponivel'] <= 0) { ?>
+                                    <small class="text-danger">
+                                        Estoque máximo atingido.
+                                    </small>
+                                <?php } ?>
 
                                 <a href="../controller/removerCarrinho.php?id=<?php echo $item['id']; ?>"
                                     class="btn btn-danger w-100" onclick="return confirm('Remover item?');">
@@ -126,7 +155,7 @@ $result = pg_query_params(
             </div>
 
         <?php } ?>
-
+        
     </div>
 
     <div class="card shadow p-4 mt-4">

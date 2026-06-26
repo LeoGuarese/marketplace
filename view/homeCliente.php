@@ -6,9 +6,16 @@ include("../model/Produto.php");
 
 $produtoModel = new Produto($conn);
 
-$result = $produtoModel->listarTodosProdutos();
+$limite = 8;
+$pagina = $_GET['pagina'] ?? 1;
+$pagina = max(1, (int) $pagina);
 
+$offset = ($pagina - 1) * $limite;
 
+$totalProdutos = $produtoModel->contarTodosProdutos();
+$totalPaginas = ceil($totalProdutos / $limite);
+
+$result = $produtoModel->listarTodosProdutosPaginado($limite, $offset);
 ?>
 
 <?php include("../styles/navbarCliente.php"); ?>
@@ -36,7 +43,7 @@ $result = $produtoModel->listarTodosProdutos();
                     <div class="card h-100 shadow">
 
                         <img src="../uploads/<?php echo $produto['imagem']; ?>" class="card-img-top"
-                            style="height: 200px; object-fit: cover;">
+                            style="width: 100%; height: 220px; object-fit: contain; background: #f8f9fa;">
 
                         <div class="card-body">
 
@@ -87,6 +94,19 @@ $result = $produtoModel->listarTodosProdutos();
             <?php } ?>
 
         </div>
+        <nav class="d-flex justify-content-center mt-4">
+            <ul class="pagination">
+
+                <?php for ($i = 1; $i <= $totalPaginas; $i++) { ?>
+                    <li class="page-item <?php echo ($i == $pagina) ? 'active' : ''; ?>">
+                        <a class="page-link" href="?pagina=<?php echo $i; ?>">
+                            <?php echo $i; ?>
+                        </a>
+                    </li>
+                <?php } ?>
+
+            </ul>
+        </nav>
     </div>
 </body>
 

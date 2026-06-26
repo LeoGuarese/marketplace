@@ -5,6 +5,7 @@ include("../conexao.php");
 include("../model/Pedido.php");
 
 if (!isset($_SESSION['id'])) {
+    $_SESSION['erro'] = "Faça login para finalizar o pedido.";
     header("Location: ../view/login1.php");
     exit;
 }

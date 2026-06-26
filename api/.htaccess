@@ -1,0 +1,7 @@
+Options -MultiViews
+RewriteEngine On
+RewriteBase /TrabCorrigidoParte1/api/
+
+RewriteRule ^pedidos/cliente/([^/]+)/?$ pedidos.php?cliente=$1 [L,QSA]
+RewriteRule ^pedidos/([0-9]+)/?$ pedidos.php?id=$1 [L,QSA]
+RewriteRule ^pedidos/?$ pedidos.php [L,QSA]

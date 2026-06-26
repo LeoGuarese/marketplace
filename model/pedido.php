@@ -178,10 +178,47 @@ class Pedido
         return pg_query_params($this->conn, $sql, [$idPedido]);
     }
 
-    public function atualizarStatus($idPedido, $status)
+    public function atualizarStatus($idPedido, $novoStatus)
     {
 
-        if ($status == 'enviado') {
+        // busca status atual
+        $sqlStatus = "SELECT status FROM pedido WHERE id = $1";
+        $resultStatus = pg_query_params($this->conn, $sqlStatus, [$idPedido]);
+        $pedido = pg_fetch_assoc($resultStatus);
+
+        if (!$pedido) {
+            return false;
+        }
+
+        $statusAtual = $pedido['status'];
+
+        // se está cancelando e ainda não estava cancelado
+        if ($novoStatus == 'cancelado' && $statusAtual != 'cancelado') {
+
+            $sqlItens = "
+            SELECT id_produto, quantidade
+            FROM item_pedido
+            WHERE id_pedido = $1
+        ";
+
+            $resultItens = pg_query_params($this->conn, $sqlItens, [$idPedido]);
+
+            while ($item = pg_fetch_assoc($resultItens)) {
+
+                $sqlEstoque = "
+                UPDATE estoque
+                SET quantidade = quantidade + $1
+                WHERE id_produto = $2
+            ";
+
+                pg_query_params($this->conn, $sqlEstoque, [
+                    $item['quantidade'],
+                    $item['id_produto']
+                ]);
+            }
+        }
+
+        if ($novoStatus == 'enviado') {
             $sql = "
             UPDATE pedido
             SET status = $1,
@@ -189,7 +226,7 @@ class Pedido
                 data_cancelamento = NULL
             WHERE id = $2
         ";
-        } else if ($status == 'cancelado') {
+        } else if ($novoStatus == 'cancelado') {
             $sql = "
             UPDATE pedido
             SET status = $1,
@@ -204,9 +241,9 @@ class Pedido
         ";
         }
 
-        return pg_query_params($this->conn, $sql, [$status, $idPedido]);
+        return pg_query_params($this->conn, $sql, [$novoStatus, $idPedido]);
     }
 
-    
+
 }
 ?>
